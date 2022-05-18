@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/chatbar.css">
+</head>
+
+<body>
+    <div class="login_student" style="display: none;"></div>
+    <div class="login_teacher" style="display: none;"></div>
+    <div class="sidebar_all">
+        <div id="btngroup" class="button-content">
+            <div id="unreadmsgdiv"></div>
+            <box-icon name='chat' type='solid'></box-icon>
+        </div>
+        <div class="card">
+            <div class="card-body" style="height: fit-content;">
+                <div>
+                    <label style="font-size: 25px;">聊天室</label>
+                    <select name="chatselect" class="form-control-sm" onchange="changechat()" style="outline: none;">
+                        <option value="all" selected="selected">大廳</option>
+                        <option value="class">班級</option>
+                    </select>
+                </div>
+                <div id="messagebox">
+                </div>
+                <div id="messagebox1">
+                </div>
+                <div id="input_container" class="input-group mb-3">
+                    <input type="text" class="form-control" id="chatinput">
+                    <div class="input-group-append">
+                        <span class="input-group-append">
+                            <a id="chat_icon">
+                                <box-icon type="solid" name="send"></box-icon>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    //選擇聊天室
+    let selectChat = document.querySelector("[name = chatselect]");
+    let scrollhidechannel = false;
+
+    function changechat() {
+        let channel = selectChat.options[selectChat.selectedIndex].value;
+
+        if (channel == "all") {
+            $("#messagebox1").css("display", "none");
+            $("#messagebox").css("display", "block");
+        } else if (channel == "class") {
+            $("#messagebox").css("display", "none");
+            $("#messagebox1").css("display", "block");
+            if (scrollhidechannel == false) {
+                $("#messagebox1").scrollTop($("#messagebox1")[0].scrollHeight);
+                scrollhidechannel = true;
+            }
+        }
+    }
+
+    function getuserData() {
+        $.ajax({
+            url: "/billboard/getUserData",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                $(response).each(function () {
+                    $(".login_student").html(`${this.grade}`);
+                    $(".login_teacher").html(`${this.user_number}`);
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    };
+
+    $(document).ready(function () {
+
+        //user年紀
+        getuserData();
+        const login_student = $(".login_student").text();
+        const login_teacher = $(".login_teacher").text();
+        let click = 0;
+
+        //連線人數
+        let connectCount = 0;
+        let newConnect = "";
+        let disConnect = "";
+        let onlinePeople = [];
+
+        // 聊天室共用變數
+        let time_now = 0;
+        let time_now1 = 0;
+        let dbdate = "";
+        let dbdate1 = "";
+        let sddate = "";
+        let sddate1 = "";
+
+        let btn = document.querySelector(".button-content");
+        let buttoncontent = document.querySelector("#btngroup");
+        let unreadmsgdiv = document.querySelector("#unreadmsgdiv");
+        let sidebar_all = document.querySelector(".sidebar_all");
+        let unreadmsgCount = 0;
+
+        if (login_teacher.substring(0,1) == "t"){
+            for (let i = 0 ; i < selectChat.length ; i ++){
+                if (selectChat.options[i].value == "class"){
+                    selectChat.remove(i);
+                    selectChat.setAttribute("disabled",true);
+                }
+            }
+        }else if (login_teacher == "null"){
+            $(".button-content").css("cursor","not-allowed");
+            $(".button-content").click(function(){
+                click = click + 1;
+                if (click == 3){    
+                    alert("點個鳥");
+                    click = 0;
+                }            
+            })
+            $("[name = chat]").setAttribute("disabled",true);
+            $("#messagebox1").css("display", "none");
+            $("#messagebox").css("display", "none");
+        }
+        const userChannel = "class" + login_student;
+
+        // 聊天室
+        getChat();
+
+        $("#messagebox").scrollTop($("#messagebox")[0].scrollHeight);
+
+        //連線
+        const conn = new WebSocket('ws://140.127.74.178:8080');
+
+        conn.onerror = function (event) {
+            console.error("WebSocket error observed:", event);
+        };
+
+        conn.addEventListener("open", (e) => {
+
+        })
+
+        conn.onopen = function () {
+            let user = $("#login_name").text();
+            let data = {
+                newconnect: user,
+            }
+            //conn.send(JSON.stringify(data));
+        }
+
+        conn.onmessage = function (e) {
+            let data = JSON.parse(e.data);
+            if (typeof data === "number") {
+                connectCount = data;
+                localStorage.setItem("connectCount", connectCount);
+            } else if (typeof data === "object" && (!!data.newconnect)) {
+                newConnect = data.newconnect;
+                onlinePeople.push(newConnect);
+                localStorage.setItem("onlinePeople", onlinePeople);
+            } else if (typeof data === "object" && (!!data.disconnect)) {
+                disConnect = data.disconnect;
+                onlinePeople.pop(disConnect);
+                localStorage.setItem("onlinePeople", onlinePeople);
+            } else if (typeof data === "object") {
+                if (data.channel == "all") {
+                    let user = $("#login_name").text();
+                    let time = String(data.date);
+                    let showtime = time.substring(11, 16);
+                    let latest_date = time.substring(5, 10);
+                    if (sddate !== latest_date) {
+                        sddate = latest_date;
+                        $("#messagebox").append("<div id='showdate'>" + sddate + "</div>");
+                    }
+                    if (data.username == user) {
+                        $("#messagebox").append("<div class='wrapper_s'><div class='showtime_s'>" + showtime + "</div>" + "<div class='self_m'>" + data.content + "</div></div>");
+                    } else {
+                        $("#messagebox").append("<div id='chat_user'>" + data.username + "</div><div class='wrapper_o'><div class='other_m'>" + data.content + "</div><div class='showtime_o'>" + showtime + "</div></div>");
+                    }
+                    if (!sidebar_all.classList.contains('active')) {
+                        unreadmsgCount++;
+                    }
+                    if (unreadmsgCount != 0) {
+                        if (unreadmsgCount < 100) {
+                            $(unreadmsgdiv).css('background-color', 'orangered');
+                            unreadmsgdiv.innerHTML = "";
+                            unreadmsgdiv.innerHTML = unreadmsgCount;
+                        } else {
+                            unreadmsgdiv.innerHTML = "";
+                            unreadmsgdiv.innerHTML = "99+";
+                        }
+                    }
+                } else if (data.channel == userChannel) {
+                    let user = $("#login_name").text();
+                    let time = String(data.date);
+                    let showtime = time.substring(11, 16);
+                    let latest_date = time.substring(5, 10);
+                    if (sddate1 !== latest_date) {
+                        sddate1 = latest_date;
+                        $("#messagebox1").append("<div id='showdate'>" + sddate1 + "</div>");
+                    }
+                    if (data.username == user) {
+                        $("#messagebox1").append("<div class='wrapper_s'><div class='showtime_s'>" + showtime + "</div>" + "<div class='self_m'>" + data.content + "</div></div>");
+                    } else {
+                        $("#messagebox1").append("<div id='chat_user'>" + data.username + "</div><div class='wrapper_o'><div class='other_m'>" + data.content + "</div><div class='showtime_o'>" + showtime + "</div></div>");
+                    }
+                    if (!sidebar_all.classList.contains('active')) {
+                        unreadmsgCount++;
+                    }
+                    if (unreadmsgCount != 0) {
+                        if (unreadmsgCount < 100) {
+                            $(unreadmsgdiv).css('background-color', 'orangered');
+                            unreadmsgdiv.innerHTML = "";
+                            unreadmsgdiv.innerHTML = unreadmsgCount;
+                        } else {
+                            unreadmsgdiv.innerHTML = "";
+                            unreadmsgdiv.innerHTML = "99+";
+                        }
+                    }
+                }
+            }
+        };
+
+        // 聊天室按鈕連結 Enter
+        $("#chatinput").keypress(function (event) {
+            if (event.which == 13) {
+                event.preventDefault();
+                $("#chat_icon").click();
+            }
+        });
+
+        $("#chat_icon").on("click", function () {
+            let username = $("#login_name").text();
+            let content = $("#chatinput").val();
+
+            let dates = new Date(Date.now());
+            let year = dates.getFullYear();
+
+            if (String(parseInt(dates.getMonth()) + 1).length == 1) {
+                month = "0" + (parseInt(dates.getMonth()) + 1);
+            } else {
+                month = (parseInt(dates.getMonth()) + 1)
+            }
+            let day;
+            if (String(dates.getDate()).length == 1) {
+                day = "0" + dates.getDate();
+            } else {
+                day = dates.getDate();
+            }
+            let hour;
+            if (String(dates.getHours()).length == 1) {
+                hour = "0" + dates.getHours();
+            } else {
+                hour = dates.getHours();
+            }
+            let minute;
+            if (String(dates.getMinutes()).length == 1) {
+                minute = "0" + dates.getMinutes();
+            } else {
+                minute = dates.getMinutes();
+            }
+            let second;
+            if (String(dates.getSeconds()).length == 1) {
+                second = "0" + dates.getSeconds();
+            } else {
+                second = dates.getSeconds();
+            }
+
+            let senddate = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+            let channel;
+
+            if (selectChat.options[selectChat.selectedIndex].value == "all") {
+                channel = selectChat.options[selectChat.selectedIndex].value;
+            } else if (selectChat.options[selectChat.selectedIndex].value == "class") {
+                channel = selectChat.options[selectChat.selectedIndex].value + login_student;
+            }
+
+            if (content.trim() != "") {
+
+                let data = {
+                    username: username,
+                    content: content,
+                    date: senddate,
+                    channel: channel,
+                };
+
+                conn.send(JSON.stringify(data));
+                $("#chatinput").val("");
+
+                $.ajax({
+                    url: "/billboard/chatbox",
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        content: content,
+                        channel: channel,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (channel == 'all') {
+                            $("#messagebox").scrollTop($("#messagebox")[0].scrollHeight);
+                        } else if (channel.substring(0, 5) == "class") {
+                            $("#messagebox1").scrollTop($("#messagebox1")[0].scrollHeight);
+                        }
+                        $("#chatinput").val("");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest.status);
+                    }
+                });
+            } else {
+                alert("訊息不能為空");
+                $("#chatinput").val("");
+            }
+        })
+
+        // 取得聊天室
+        function getChat() {
+            let user = $("#login_name").text();
+            $.ajax({
+                url: "/billboard/chatbox",
+                type: "GET",
+                async: false,
+                success: function (response) {
+                    $(response).each(function () {
+                        if (this.channel == "all") {
+                            let time = new Date(this.time).getTime();
+                            let showtime = this.time.substring(11, 16);
+                            let latest_date = this.time.substring(5, 10);
+
+                            if (time > time_now) {
+                                if (dbdate != latest_date) {
+                                    dbdate = latest_date;
+                                    if (dbdate.charAt(0) == "0") {
+                                        sddate = dbdate.substring(0, 5);
+                                    } else {
+                                        sddate = dbdate;
+                                    }
+
+                                    $("#messagebox").append("<div id='showdate'>" + dbdate + "</div>");
+                                }
+                                if (this.username == user) {
+                                    $("#messagebox").append("<div class='wrapper_s'><div class='showtime_s'>" + showtime + "</div>" + `<div class="self_m">${this.content}</div></div>`);
+                                } else {
+                                    $("#messagebox").append(`<div id="chat_user">${this.username}</div><div class='wrapper_o'><div class="other_m">${this.content}</div><div class='showtime_o'>` + showtime + `</div></div>`);
+                                }
+                                time_now = time;
+                            }
+                        } else if (this.channel == userChannel) {
+                            let time = new Date(this.time).getTime();
+                            let showtime = this.time.substring(11, 16);
+                            let latest_date = this.time.substring(5, 10);
+
+                            if (time > time_now1) {
+                                if (dbdate1 != latest_date) {
+                                    dbdate1 = latest_date;
+                                    if (dbdate1.charAt(0) == "0") {
+                                        sddate1 = dbdate1.substring(0, 5);
+                                    } else {
+                                        sddate1 = dbdate1;
+                                    }
+
+                                    $("#messagebox1").append("<div id='showdate'>" + dbdate1 + "</div>");
+                                }
+                                if (this.username == user) {
+                                    $("#messagebox1").append("<div class='wrapper_s'><div class='showtime_s'>" + showtime + "</div>" + `<div class="self_m">${this.content}</div></div>`);
+                                } else {
+                                    $("#messagebox1").append(`<div id="chat_user">${this.username}</div><div class='wrapper_o'><div class="other_m">${this.content}</div><div class='showtime_o'>` + showtime + `</div></div>`);
+                                }
+                                time_now1 = time;
+                            }
+                        }
+                    });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status);
+                }
+            });
+        }
+        //聊天室開關
+        btn.onclick = function () {
+            if (!sidebar_all.classList.contains('active')) {
+                unreadmsgCount = 0;
+                unreadmsgdiv.innerHTML = "";
+                $(unreadmsgdiv).css('background-color', 'unset');
+            }
+            sidebar_all.classList.toggle("active");
+        }
+    })
+</script>
+
+</html>

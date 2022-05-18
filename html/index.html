@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+
+    <link rel="stylesheet" href="/css/index.css">
+    <?php include "../html/header/navbar.php" ?>
+    <?php include "../html/header/chatbar.html" ?>
+</head>
+
+<body>
+    <!-- modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-b" class="modal-body">
+                </div>
+                <div id="modal-f" class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-container">
+        <div class="container mt-5" id="firstdiv">
+            <div class="card">
+                <!-- <img src=" ..." class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <ul class="nav nav-pills navbar-collapse mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" data-toggle="pill" href="#pills-public" role="tab"
+                                aria-selected="true">公告</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link " data-toggle="pill" href="#pills-material" role="tab"
+                                aria-selected="true">教材區</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link " data-toggle="pill" href="#pills-assessment" role="tab"
+                                aria-selected="true">評量區</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-toggle="pill" href="#pills-course" role="tab"
+                                aria-selected="true">課程討論版</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" data-toggle="pill" href="#pills-member" role="tab"
+                                aria-selected="true">成員</a>
+                        </li>
+
+                    </ul>
+                    <hr class="solid">
+                    <div class="form-inline">
+                        <div name="hover-plus" class="pt-1">
+                            <box-icon name='plus' color='rgba(0,0,0,0.5)' data-toggle="modal"
+                                data-target="#exampleModal" func-type="add">
+                            </box-icon>
+                            <span class="tooltips">新增</span>
+                        </div>
+                        <select class="form-control mx-sm-3" name="year">
+                        </select>
+                        <select class="form-control mx-sm-3" name="semester">
+                        </select>
+                        <select class="form-control mx-sm-3" name="subject">
+                        </select>
+                    </div>
+                    <hr class="solid">
+                    <div class="container">
+                    </div>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane active" id="pills-public" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="table-responsive rounded">
+                                <table class='table table-bordered table-hover table-striped postion-fixed text-nowrap'
+                                    name="datatable">
+                                    <thead class='thead-dark'>
+                                        <tr class='text-center'>
+                                            <th>篇號</th>
+                                            <th name="td-edit">編輯</th>
+                                            <th>標題</th>
+                                            <th>張貼者</th>
+                                            <th>張貼時間</th>
+                                            <th name="td-delete">刪除</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='announcement' name='announcement'>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="pills-material" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="table-responsive rounded">
+                                <table class='table table-bordered table-hover table-striped postion-fixed text-nowrap'
+                                    name="datatable" width="1070px">
+                                    <thead class='thead-dark'>
+                                        <tr class='text-center'>
+                                            <th>篇號</th>
+                                            <th name="td-edit">編輯</th>
+                                            <th>標題</th>
+                                            <th>科目</th>
+                                            <th>張貼時間</th>
+                                            <th name="td-delete">刪除</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='material' name='material'>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="pills-assessment" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="table-responsive rounded">
+                                <table id="table-assessment"
+                                    class='table table-bordered table-hover table-striped postion-fixed text-nowrap'
+                                    name="datatable">
+                                    <thead class='thead-dark'>
+                                        <tr class='text-center'>
+                                            <th>篇號</th>
+                                            <th name="td-edit">編輯</th>
+                                            <th>作業內容</th>
+                                            <!-- <th>繳交</th> -->
+                                            <th>科目</th>
+                                            <th>截止時間</th>
+                                            <th name="td-delete">刪除</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='assessment' name='assessment'>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="pills-course" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="table-responsive rounded">
+                                <table class='table table-bordered table-hover table-striped postion-fixed text-nowrap'
+                                    name="datatable">
+                                    <thead class='thead-dark'>
+                                        <tr class='text-center'>
+                                            <th>名稱</th>
+                                            <th>科目</th>
+                                            <th>張貼時間</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id='course' name='course'>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 取得年份
+        getYear();
+        // 取得學期
+        getSemester();
+        // 取得各科科目放入 name=course 的 select 裏面
+        getCourseName();
+        // 取得使用者名稱
+        getUserName();
+        // 取得公告版內容
+        getAnnouncement();
+        // 取得教材區內容
+        getMaterial();
+        // 取得評量區內容
+        getAssessment();
+        // 初始化 DataTable
+        initDataTable();
+    });
+
+    // 套上 datatable 的格式
+    function initDataTable() {
+        $("[name='datatable']").DataTable({
+            bAutoWidth: false,
+            bInfo: false,
+            pagingType: 'full_numbers',
+            bLengthChange: false,
+            iDisplayLength: 8,
+            language: {
+                oPaginate: {
+                    sFirst: "首頁",
+                    sPrevious: "上頁",
+                    sNext: "下頁",
+                    sLast: "尾頁",
+                },
+                emptyTable: '暫無資料...',
+                sLoadingRecords: "載入中...",
+                sProcessing: "處理中...",
+                sSearch: "搜索 : ",
+                sZeroRecords: "無相關資料",
+            },
+            destroy: true
+        });
+    }
+    // 取得各科科目放入 name=course 的 select 裏面
+    function getCourseName() {
+        var year = $("select[name = 'year']").val();
+        var semester = $("select[name = 'semester']").val();
+        $.ajax({
+            url: "/billboard/getCourse",
+            type: "GET",
+            data: {
+                year: year,
+                semester: semester
+            },
+            async: false,
+            success: function (response) {
+                $("select[name='subject']").empty();
+                option = `<option value="0">全科</option>`;
+                $(response).each(function () {
+                    option += `<option value="${this.course_id}">${this.course_name}</option>`;
+                });
+                $("select[name='subject']").append(option);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+    // 取得公告版內容
+    function getAnnouncement() {
+        var subject_str = $("select[name = 'subject']").val();
+        var subject = parseInt(subject_str);
+        $.ajax({
+            url: "/billboard/announcement",
+            type: "GET",
+            async: false,
+            data: {
+                subject: subject
+            },
+            success: function (response) {
+                var number = 0;
+                $("#announcement").empty();
+                $("[name='datatable']").DataTable().destroy();
+                $(response).each(function () {
+                    number++;
+                    $("#announcement").append(`
+                        <tr class='text-center'>
+                            <td class="col-md-1">${number}</td>
+                            <td style='width:50px' name='td-edit'>
+                                <div name="hover">
+                                    <box-icon class="m-1" name='edit' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal" func-type="edit" title="${this.title}" value="${this.content}" announcement_id="${this.announcement_id}"></box-icon>
+                                </div>
+                            </td>
+                            <td id='announcetitle' class="col-md-4" data-toggle="modal" data-target="#exampleModal" func-type="content" value="${this.content}" post="${this.post_user}" time="${this.time_now.substring(0, 19)}">${this.title}</td>
+                            <td id='announcepost' class="col-md-3">${this.post_user}</td>
+                            <td id='announcetime' class="col-md-2">${this.time_now.substring(0, 19)}</td>
+                            <td style='width:50px' name='td-edit'>
+                                <div name="hover">
+                                    <box-icon class="m-1" name='trash' type='solid' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal" func-type="delete" value="${this.title}" announcement_id="${this.announcement_id}"></box-icon>
+                                </div>
+                            </td>
+                        </tr>`);
+                });
+                initDataTable();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+    // 刪除按鈕(公告區)
+    function deleteAnnouncement(check) {
+        $.ajax({
+            url: "/billboard/announcement",
+            type: "DELETE",
+            async: false,
+            data: {
+                announcement_id: check
+            },
+            beforeSend: function (response) {
+                $("#exampleModal").find(".modal-body").html("公告更新中...");
+            },
+            success: function (response) {
+                $("[name='datatable']").DataTable().destroy();
+                $("#exampleModal").find(".modal-body").html("刪除成功");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                getAnnouncement();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+    //取得教材區內容
+    function getMaterial() {
+        var subject_str = $("select[name = 'subject']").val();
+        var subject = parseInt(subject_str);
+        $.ajax({
+            url: "/billboard/material",
+            type: "GET",
+            async: false,
+            data: {
+                subject: subject
+            },
+            success: function (response) {
+                var number = 0;
+                $("#material").empty();
+                $("[name='datatable']").DataTable().destroy();
+                $(response).each(function () {
+                    if (response != null) {
+                        number++;
+                        $("#material").append(`
+                        <tr class='text-center'>
+                            <td class="col-md-1">${number}</td>
+                            <td name='td-edit'>
+                                <div name="hover" class="pt-1">
+                                    <box-icon name='edit' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal" func-type="edit" title="${this.title}" value="${this.content}" material_id="${this.material_id}"></box-icon>
+                                </div>
+                            </td>
+                            <td id ='materialtitle' class="col-md-4" data-toggle="modal" data-target="#exampleModal" func-type="content" value="${this.content}">${this.title}</td>
+                            <td class="col-md-3">${this.course_name}</td>
+                            <td class="col-md-2">${this.time_now.substring(0, 19)}</td>
+                            <td name='td-edit'>
+                                <div name="hover">
+                                    <box-icon class="m-1" name='trash' type='solid' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal" func-type="delete" value="${this.title}" material_id="${this.material_id}"></box-icon>
+                                </div>
+                            </td>
+                        </tr>`);
+                    } else {
+                        $("#material").empty();
+                    }
+                });
+                initDataTable();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+    // 刪除按鈕(教材區)
+    function deleteMaterial(check) {
+        $.ajax({
+            url: "/billboard/material",
+            type: "DELETE",
+            async: false,
+            data: {
+                material_id: check
+            },
+            beforeSend: function (response) {
+                $("#exampleModal").find(".modal-body").html("教材更新中...");
+            },
+            success: function (response) {
+                $("[name='datatable']").DataTable().destroy();
+                $("#exampleModal").find(".modal-body").html("刪除成功");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                getMaterial();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+    //取得作業區內容
+    function getAssessment(subject) {
+        var subject_str = $("select[name = 'subject']").val();
+        var subject = parseInt(subject_str);
+        $.ajax({
+            url: "/billboard/assessment",
+            type: "GET",
+            async: false,
+            data: {
+                subject: subject
+            },
+            success: function (response) {
+                var number = 0;
+                var assessment = "";
+                $("#assessment").empty();
+                $("[name='datatable']").DataTable().destroy();
+                $(response).each(function () {
+                    number++;
+                    $("#assessment").append(`
+                        <tr class='text-center'>
+                            <td class="col-md-1">${number}</td>
+                            <td name='td-edit'>
+                                <div name="hover">
+                                    <box-icon class="m-1" name='edit' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal" func-type="edit" title="${this.title}" value="${this.content}" assessment_id="${this.assessment_id}"></box-icon>
+                                </div>
+                            </td>
+                            <td id ='assessmenttitle' class="col-md-4" data-toggle="modal" data-target="#exampleModal" func-type="content" value="${this.content}" time ="${this.close_date.substring(0, 19)}">${this.title}</td>
+                            <td class="col-md-3">${this.course_name}</td>
+                            <td class="col-md-2">${this.close_date.substring(0, 19) || ''}</td>
+                            <td name='td-edit'>
+                                <div name="hover">
+                                    <box-icon class="m-1" name='trash' type='solid' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal" func-type="delete" value="${this.title}" assessment_id="${this.assessment_id}"></box-icon>
+                                </div>
+                            </td>
+                        </tr>
+                    `);
+                });
+                initDataTable();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+    // 刪除按鈕(作業區)
+    function deleteAssessment(check) {
+        $.ajax({
+            url: "/billboard/assessment",
+            type: "DELETE",
+            async: false,
+            data: {
+                assessment_id: check
+            },
+            beforeSend: function (response) {
+                $("#exampleModal").find(".modal-body").html("資料更新中...");
+            },
+            success: function (response) {
+                $("[name='datatable']").DataTable().destroy();
+                $("#exampleModal").find(".modal-body").html("刪除成功");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                getAssessment();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+    // 當modal被開啟
+    $("#exampleModal").on("shown.bs.modal", function (e) {
+        var element = e.relatedTarget;
+        var func = $(element).attr("func-type");
+        var title = $(element).text();
+        var content = $(element).attr("value");
+        var tab = $("#pills-tab").find(".active").text();
+        if (tab == "公告") {
+            if (func == "content") {
+                $("#exampleModal").find(".modal-title").html(title);
+                $("#exampleModal").find(".modal-body").html(content);
+                $("#exampleModal").find(".modal-footer").html($(element).attr("post") + " " + "[" + $(element).attr("time") + "]");
+            } else if (func == 'add') {
+                $("#exampleModal").find(".modal-title").html("新增公告");
+                $("#exampleModal").find(".modal-body").html(`
+                    <form id="add-announcement">
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">科目: </label>
+                            <select class="form-control col-5" name="subject">
+                                <option value="0">全科</option>
+                            </select>
+                        </div>    
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">標題：</label>
+                            <input type="text" class="form-control col-9" name="announcement_title">
+                        </div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <label class="col-2 mt-2">內容：</label>
+                                <textarea class="form-control col-9" id="announcement_text" name="announcement_content" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary float-right" id="btn-add-announcement">新增</button>
+                    </form>    
+                `);
+                $("#exampleModal").find(".modal-footer").html(``);
+
+                $("select[name='subject']").html("");
+                getCourseName();
+
+                // 新增公告
+                $("#btn-add-announcement").on("click", function () {
+                    var subject = $("select[name='subject']").val();
+                    var course = parseInt(subject);
+                    var title = $("input[name='announcement_title']").val();
+                    var content = $("[name='announcement_content']").val();
+                    var post_user = $("#login_name").text();
+                    $.ajax({
+                        url: "/billboard/announcement",
+                        type: 'POST',
+                        data: {
+                            subject: course,
+                            title: title,
+                            content: content,
+                            post_user: post_user,
+                        },
+                        dataType: 'json',
+                        beforeSend: function (response) {
+                            $("#exampleModal").find(".modal-body").html("資料更新中...");
+                        },
+                        success: function (response) {
+                            $("[name='datatable']").DataTable().destroy();
+                            $("#exampleModal").find(".modal-body").html("上傳成功");
+                            $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                            getAnnouncement();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(XMLHttpRequest.status);
+                        }
+                    });
+                });
+            } else if (func == "delete") {
+                var announcement_id = $(element).attr("announcement_id");
+                $("#exampleModal").find(".modal-title").html("刪除公告");
+                $("#exampleModal").find(".modal-body").html(`確定要刪除 ${content} ?`);
+                $("#exampleModal").find(".modal-footer").html(`
+                    <button type="button" class="btn btn-secondary" name="func-btn" check_id="${announcement_id}" func-type="delete-announcement">確定</button>
+                `);
+            } else if (func == 'edit') {
+                var title = $(element).attr("title");
+                var content = $(element).attr("value");
+                $("#exampleModal").find(".modal-title").html("編輯公告");
+                $("#exampleModal").find(".modal-body").html(`
+                    <form id="add-announcement">
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">標題：</label>
+                            <input type="text" class="form-control col-9" name='announcement_title' value="${title}">
+                        </div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <label class="col-2 mt-2">內容：</label>
+                                <textarea class="form-control col-9" rows="10" id="announcement_text" name='announcement_content'>${content}</textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary float-right" name="btn-update-announcement">編輯</button>
+                    </form>    
+                `);
+                $("#exampleModal").find(".modal-footer").html(``);
+
+                $("button[name='btn-update-announcement']").on("click", function () {
+                    var announcement_id = $(element).attr("announcement_id");
+                    var title = $("input[name='announcement_title']").val();
+                    var content = $("[name='announcement_content']").val();
+                    $.ajax({
+                        url: "/billboard/announcement",
+                        type: 'PATCH',
+                        data: {
+                            title: title,
+                            content: content,
+                            announcement_id: announcement_id
+                        },
+                        dataType: 'json',
+                        beforeSend: function (response) {
+                            $("#exampleModal").find(".modal-body").html("資料更新中...");
+                        },
+                        success: function (response) {
+                            $("[name='datatable']").DataTable().destroy();
+                            $("#exampleModal").find(".modal-body").html("編輯成功");
+                            $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                            getAnnouncement();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(XMLHttpRequest.status);
+                        }
+                    });
+                });
+            }
+
+        } else if (tab == "教材區") {
+            if (func == "add") {
+                $("#exampleModal").find(".modal-title").html("新增資料");
+                $("#exampleModal").find(".modal-body").html(`
+                    <form id="add-form">
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">科目: </label>
+                            <select class="form-control col-9" name="subject">
+                                <option value="0">全科</option>
+                            </select>
+                        </div>    
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">標題：</label>
+                            <input type="text" class="form-control col-9" name="content_title">
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">檔案：</label>
+                            <input type="file" class="form-control-file col-9" name="newfile" multiple="multiple" hidden>
+                            <button type="button" class="form-control-file col-4" name="btn-newfile">CHOOSE A FILE</button>
+                            <span class="form-control-file col-6 mt-2" name="file-text">No file chosen, yet.</span>    
+                        </div>
+                        <button type="submit" class="btn btn-secondary float-right" name="btn-upload">新增</button>
+                    </form>    
+                `);
+                $("#exampleModal").find(".modal-footer").html("");
+
+                $("select[name='subject']").html("");
+                getCourseName();
+
+                // 上傳檔案
+                $("button[name='btn-upload']").on("click", function () {
+                    $("#add-form").on("submit", function (e) {
+                        e.preventDefault();
+                        var subject = $("select[name='subject']").val();
+                        var course = parseInt(subject);
+                        var title = $("input[name='content_title']").val();
+                        var file = $("[name='newfile']").prop("files")[0];
+                        var formData = new FormData();
+                        formData.append('newfile', file);
+                        formData.append('subject', course);
+                        formData.append('title', title);
+                        console.log(file);
+                        $.ajax({
+                            url: "/billboard/material",
+                            type: 'POST',
+                            data: formData,
+                            dataType: 'json',
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function (response) {
+                                $("#exampleModal").find(".modal-body").html("教材更新中...");
+                            },
+                            success: function (response) {
+                                $("[name='datatable']").DataTable().destroy();
+                                $("#exampleModal").find(".modal-body").html("上傳成功");
+                                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                                getMaterial();
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(XMLHttpRequest.status);
+                            }
+                        });
+                    });
+                });
+            } else if (func == "edit") {
+                var data = $(element).attr("value");
+                var title = $(element).attr("title");
+                $("#exampleModal").find(".modal-title").html("編輯教材");
+                $("#exampleModal").find(".modal-body").html(`
+                    <form id="edit-form">
+                        <div class="form-group row">
+                            <label class="col-3 mt-2">標題：</label>
+                            <input type="text" class="form-control col-8" name="content_title" value="${title}">
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 mt-2">原檔案：</label>
+                            <div class="text-center mt-2 ml-2">
+                                <a href="/../uploads/${data}" name="download" download>${data}</a>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 mt-2">新檔案：</label>
+                            <input type="file" class="form-control-file col-9" name="newfile" multiple="multiple" hidden>
+                            <button type="button" class="form-control-file col-4" name="btn-newfile">CHOOSE A FILE</button>
+                            <span class="form-control-file col-5 mt-2" name="file-text">No file chosen, yet.</span>
+                        </div>
+                        <button type="submit" class="btn btn-secondary float-right" name="btn-upload">編輯</button>
+                    </form>
+                `);
+                $("#exampleModal").find(".modal-footer").html("");
+                // 修改檔案
+                $("button[name='btn-upload']").on("click", function () {
+                    $("#edit-form").on("submit", function (e) {
+                        e.preventDefault();
+                        var m_id = $(element).attr("material_id");
+                        var material_id = parseInt(m_id);
+                        var title = $("input[name='content_title']").val();
+                        var file = $("[name='newfile']").prop("files")[0];
+                        var formData = new FormData();
+                        formData.append('newfile', file);
+                        formData.append('material_id', material_id);
+                        formData.append('title', title);
+                        $.ajax({
+                            url: "/billboard/material",
+                            type: 'PATCH',
+                            data: formData,
+                            dataType: 'json',
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function (response) {
+                                $("#exampleModal").find(".modal-body").html("教材更新中...");
+                            },
+                            success: function (response) {
+                                $("[name='datatable']").DataTable().destroy();
+                                $("#exampleModal").find(".modal-body").html("編輯成功");
+                                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                                getMaterial();
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                console.log(XMLHttpRequest.status);
+                            }
+                        });
+                    });
+                });
+            } else if (func == "delete") {
+                var material_id = $(element).attr("material_id");
+                $("#exampleModal").find(".modal-title").html("刪除教材");
+                $("#exampleModal").find(".modal-body").html(`確定要刪除 ${content} ?`);
+                $("#exampleModal").find(".modal-footer").html(`
+                    <button type="button" class="btn btn-secondary" name="func-btn" check_id="${material_id}" func-type="delete-material">送出</button>
+                `);
+            } else if (func == "content") {
+                $("#exampleModal").find(".modal-title").html(title);
+                $("#exampleModal").find(".modal-body").html(`
+                    <div class="text-center">
+                        <a href="/../uploads/${content}" name="download" download>${content}</a>
+                    </div>
+                    <div name="hover-view">
+                        <a href="/../uploads/${content}" name="blank" target="_blank">
+                            <box-icon name='search-alt' color='rgba(0,0,0,0.5)'></box-icon>
+                        </a>
+                    </div>
+                `);
+                $("#exampleModal").find(".modal-footer").html("");
+            }
+
+        } else if (tab == "評量區") {
+            if (func == "content") {
+                $("#exampleModal").find(".modal-title").html(title);
+                $("#exampleModal").find(".modal-body").html(content);
+                $("#exampleModal").find(".modal-footer").html("[" + $(element).attr("time") + "]");
+            } else if (func == "delete") {
+                var assessment_id = $(element).attr("assessment_id");
+                $("#exampleModal").find(".modal-title").html("刪除作業");
+                $("#exampleModal").find(".modal-body").html(`確定要刪除 ${content} ?`);
+                $("#exampleModal").find(".modal-footer").html(`
+                    <button type="button" class="btn btn-secondary" name="func-btn" check_id="${assessment_id}" func-type="delete-assessment">確定</button>
+                `);
+            } else if (func == 'add') {
+                $("#exampleModal").find(".modal-title").html("新增功課");
+                $("#exampleModal").find(".modal-body").html(`
+                    <form id="add-assessment">
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">科目：</label>
+                            <select class="form-control col-5" name="subject">
+                                <option value="0">全科</option>
+                            </select>
+                        </div>    
+                        <div class="form-group  row">
+                            <label class="col-2 ">截止：</label>
+                            <input type="date" class="form-control col-9"  name="assessment_close_date"/>
+                        </div>    
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">標題：</label>
+                            <input type="text" class="form-control col-9" name="assessment_title">
+                        </div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <label class="col-2 mt-2">內容：</label>
+                                <textarea class="form-control col-9" id="assessment_text" name="assessment_content" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary float-right" id="btn-add-assessment">新增</button>
+                    </form>    
+                `);
+                $("#exampleModal").find(".modal-footer").html(``);
+
+                $("select[name='subject']").html("");
+                getCourseName();
+
+                // 新增作業
+                $("#btn-add-assessment").on("click", function () {
+                    var subject = $("select[name='subject']").val();
+                    var course = parseInt(subject);
+                    var close_date = $("input[name='assessment_close_date']").val();
+                    var title = $("input[name='assessment_title']").val();
+                    var content = $("[name='assessment_content']").val();
+                    $.ajax({
+                        url: "/billboard/assessment",
+                        type: 'POST',
+                        data: {
+                            subject: course,
+                            close_date: close_date,
+                            title: title,
+                            content: content,
+                        },
+                        dataType: 'json',
+                        beforeSend: function (response) {
+                            $("#exampleModal").find(".modal-body").html("資料更新中...");
+
+                        },
+                        success: function (response) {
+                            $("[name='datatable']").DataTable().destroy();
+                            $("#exampleModal").find(".modal-body").html("上傳成功");
+                            $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                            getAssessment();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(XMLHttpRequest.status);
+                        }
+                    });
+                });
+            } else if (func == 'edit') {
+                var title = $(element).attr("title");
+                var content = $(element).attr("value");
+                $("#exampleModal").find(".modal-title").html("編輯作業");
+                $("#exampleModal").find(".modal-body").html(`
+                    <form id="add-assessment">
+                        <div class="form-group row">
+                            <label class="col-2 mt-2">標題：</label>
+                            <input type="text" class="form-control col-9" name='assessment_title' value="${title}">
+                        </div>
+                        <div class="form-group row">
+                            <div class="input-group">
+                                <label class="col-2 mt-2">內容：</label>
+                                <textarea class="form-control col-9" rows="10" id="assessment_text" name='assessment_content'>${content}</textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary float-right" name="btn-update-assessment">編輯</button>
+                    </form>    
+                `);
+                $("#exampleModal").find(".modal-footer").html(``);
+
+                $("button[name='btn-update-assessment']").on("click", function () {
+                    var assessment_id = $(element).attr("assessment_id");
+                    var title = $("input[name='assessment_title']").val();
+                    var content = $("[name='assessment_content']").val();
+                    $.ajax({
+                        url: "/billboard/assessment",
+                        type: 'PATCH',
+                        data: {
+                            title: title,
+                            content: content,
+                            assessment_id: assessment_id
+                        },
+                        dataType: 'json',
+                        beforeSend: function (response) {
+                            $("#exampleModal").find(".modal-body").html("資料更新中...");
+                        },
+                        success: function (response) {
+                            $("[name='datatable']").DataTable().destroy();
+                            $("#exampleModal").find(".modal-body").html("編輯成功");
+                            $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                            getAssessment();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(XMLHttpRequest.status);
+                        }
+                    });
+                });
+            }
+        }
+    });
+    // 搜尋的該年份的科目
+    $("select[name='year']").on("change", function () {
+        getCourseName();
+    });
+    // 搜尋的該學期的科目
+    $("select[name='semester']").on("change", function () {
+        getCourseName();
+    });
+    // 搜尋的該科目的資料
+    $("select[name='subject']").on("change", function () {
+        getAnnouncement();
+        getMaterial();
+        getAssessment();
+    });
+    // 當按鈕被點擊
+    $(document).on("click", "[name='func-btn']", function () {
+        var func = $(this).attr("func-type");
+        var check = $(this).attr("check_id");
+        if (func == "delete-material") {
+            deleteMaterial(check);
+        } else if (func == "delete-announcement") {
+            deleteAnnouncement(check);
+        } else if (func == "delete-assessment") {
+            deleteAssessment(check);
+        }
+    });
+    // 客製化上傳區域
+    $(document).on("click", "button[name='btn-newfile']", function () {
+        $("input[name='newfile']").click();
+    })
+    $(document).on("change", "input[name='newfile']", function () {
+        if ($(this).val()) {
+            var filename = $(this).val().split("\\")
+            $("span[name='file-text']").html(filename.pop());
+        } else {
+            $("span[name='file-text']").html("No file chosen, yet.");
+        }
+    });
+</script>
+
+</html>

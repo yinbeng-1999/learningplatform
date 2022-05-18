@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+.maindiv {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    vertical-align: middle;
+    margin: 3% auto 0 auto;
+}
+
+div.wrap {
+    max-height: fit-content;
+    width: 100%;
+    padding: 20px 20px;
+    border-radius: 15px;
+    background-color: #ebebeb;
+    margin-bottom: 30px;
+    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.1), 15px 18px 15px rgba(0, 0, 0, 0.05);
+}
+
+div.user_title {
+    height: 60px;
+    padding: 2px 2px;
+    border-bottom: 1px solid;
+    cursor: pointer;
+    color: rgb(101, 101, 214);
+    font-size: 40px;
+}
+
+div.user_title:hover {
+    color: rgb(56, 56, 151);
+}
+
+div.user_title.active {
+    color: rgb(56, 56, 151);
+}
+
+div.user_title:after {
+    content: '\002B';
+    color: rgb(56, 56, 151);
+    font-weight: bold;
+    float: right;
+    margin-right: 25px;
+}
+
+div.user_title.active:after {
+    content: "\002D";
+    color: rgb(56, 56, 151);
+    margin-bottom: 10px;
+}
+
+.content {
+    max-height: 350px;
+    padding: 15px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+div#allclass {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 20px;
+}
+
+#classcontent {
+    background: linear-gradient(to bottom, #bbbbce 0%, #8c8f8d 25%, #f5f8ff 25%, #f5f8ff 100%);
+    border: solid 1px;
+    border-radius: 15px;
+    width: 250px;
+    height: 280px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1), 10px 13px 10px rgba(0, 0, 0, 0.05);
+    margin: 20px 50px 15px 5px;
+}
+
+#classcontent p {
+    display: flex;
+    justify-content: space-around;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 15px 60px;
+    color: rgb(62, 62, 138);
+}
+
+:root {
+    --nav-width: 92px;
+    /* color */
+    --first-color: #ffffff3f;
+    --bg-color: #12192c;
+    --sub-color: #b6cefc;
+    --white-color: #fff;
+    /* font */
+    --body-font: 'Poppins', sans-serif;
+    --normal-font0size: 1rem;
+    --small-font-size: .875rem;
+    /* z index */
+    --z-fixed: 100;
+}
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    margin: 2px;
+    padding: 0 0 0 4rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+}
+
+h1 {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.l-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--white-color);
+    padding: 1.5rem 1.5rem 2rem;
+    transition: .5s;
+    z-index: var(--z-fixed);
+}
+
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.nav_brand {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: left;
+    padding: 0;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.nav_toggle {
+    font-size: 1.25rem;
+    padding: .75rem;
+    cursor: pointer;
+}
+
+.nav_logo {
+    color: var(--white-color);
+    font-weight: 600;
+}
+
+.st_nav_link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: .75;
+    color: var(--white-color);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.nav_link:hover {
+    background-color: var(--first-color);
+}
+
+.nav_icon {
+    font-size: 1.25rem;
+}
+
+.nav_name {
+    font-size: small;
+}
+
+.expander {
+    width: calc(var(--nav-width) + 9.25rem);
+}
+
+.body-pd {
+    padding: 0 0 0 15rem;
+}
+
+.nav_brand ion-icon {
+    font-size: 24px;
+}
+
+.st_active {
+    background-color: #fffdfd36;
+    border-radius: 10px;
+}
+
+.st_collapse {
+    grid-template-columns: 20px max-content 1fr;
+}
+
+.st_collapse_link {
+    justify-self: flex-end;
+    transition: .5s;
+}
+
+.st_collapse_menu {
+    display: none;
+    padding: .75rem 2.25rem;
+}
+
+.collapse_sublink {
+    color: var(--sub-color);
+    font-size: (var(--small-font-size));
+}
+
+.collapse_sublink:hover {
+    color: var(--white-color);
+}
+
+.showCollapse {
+    display: block;
+}
+
+.rotate {
+    transform: rotate(180deg);
+    transition: .5s;
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+    <link rel="icon" href="/picture/sem.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/javascript/bootstrap.min.css">
+    <link rel="stylesheet" href="/javascript/bootstrap-icons.css">
+    <script src="/javascript/jquery.min.js" charset="utf-8"></script>
+    <script src="/javascript/popper.min.js"></script>
+    <script src="/javascript/bootstrap.min.js"></script>
+    <script src="/javascript/boxicons.js"></script>
+    <link rel="stylesheet" href="/css/login.css">
+
+</head>
+
+<body>
+    <div class="title">
+        <h1>LearningPlatform</h1>
+    </div>
+    <div class="effect-1">
+        <div></div>
+    </div>
+    <div class="effect-2">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="effect-3">
+        <div></div>
+    </div>
+    <div class="effect-4">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="center">
+        <h2 name="formTitle">Login</h2>
+        <form id="login_form">
+            <div class="text-field">
+                <input type="text" id="account" name="login_data" autocomplete="off" required>
+                <span></span>
+                <label>帳號 </label>
+            </div>
+            <div class="text-field">
+                <input type="password" id="password" name="login_data" required>
+                <span></span>
+                <label>密碼 </label>
+            </div>
+            <div class="pass">
+                <a href="/forgetpass" class="pass">忘記密碼？</a>
+            </div>
+            <hr>
+            <input type="button" id="login" value="登入">
+            <input type="submit" hidden>
+            <div class="signup">
+                沒有帳號？<a href="/register/render">註冊</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">系統提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class='text-danger'>此使用者不存在</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            let account = document.getElementById("account");
+            let password = document.getElementById("password");
+            account.focus();
+        })  
+        
+
+        $(document).on("click", "#login", function () {
+            $(document).find("#login_form input:submit").click();
+        })
+        $(document).on("submit", "#login_form", function (e) {
+            e.preventDefault();
+
+            let data = new Object();
+            $("input[name='login_data']").each(function () {
+                data[$(this).attr("id")] = $(this).val();
+            })
+            $.ajax({
+                url: '/login',
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    $.each(response, function () {
+                        window.location.href = `/sem_intro/data/${this.user_id}`;
+                    });
+                    if (response == "") {
+                        $("#message").modal('show');
+                    }
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

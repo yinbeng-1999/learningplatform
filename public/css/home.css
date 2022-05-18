@@ -1,0 +1,26 @@
+nav{
+    box-shadow: 0 0 8px rgb(0,0,0,0.2);
+}
+a{
+    padding: 5px;
+    margin: 5px;
+}
+a > span{
+    padding: 3px;
+}
+.card{
+    box-shadow: 0 0 8px rgb(0,0,0,0.2);
+}
+#main_card{
+    margin: 0 auto;
+    float: none; 
+    margin-bottom: 10px;
+}
+body{
+    background-color: rgba(163, 148, 148, 0.096);
+    font-family: cursive;
+}
+div.jumbotron{
+    box-shadow: 0 0 8px rgb(0,0,0,0.2);
+}
+

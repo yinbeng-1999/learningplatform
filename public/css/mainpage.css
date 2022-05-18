@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+}
+/* 頁面頂部 */
+div.page-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ebebeb;
+    width: 100%;
+    height: 620px;
+}
+div.page-top img{
+    z-index: 1;
+    width: 17rem;
+    height: 22rem;
+    margin: 0 30px;
+    border-radius: 10px;
+    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.1),
+                15px 18px 15px rgba(0, 0, 0, 0.05);
+}
+div.right-intro{
+    z-index: 1;
+    width: 50vh;
+    font-size: 20px;
+    font-family: monospace;
+}
+div.right-intro p.normal{
+    word-break: break-all;
+}
+div.right-right{
+    margin: 0 0 22% 0;
+}
+div.right-right > span.tooltips{
+    position: absolute;
+    visibility: hidden;
+    width: 50px;
+    padding: 4px 0;
+    margin-top: -38px;
+    margin-left: -48px;
+    border-radius: 25px;
+    text-align: center;
+    background-color: rgb(214, 214, 214);
+    color: rgba(36, 36, 36, 0.6);
+    user-select: none;
+}
+div.right-right:hover > span.tooltips{
+    visibility: visible;
+    transition: .5s;
+}
+.effect-1{
+    position: absolute;
+    z-index: 0;
+    width: 50px;
+    height: 50px;
+    top: 20%;
+    left: 20%;
+    border-radius: 50%;
+    background-color: #c76b89;
+    animation: topBounce-1 3s ease-in-out infinite;
+}
+@keyframes topBounce-1{
+    0%, 100%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(25px);
+    }
+}
+.effect-2{
+    position: absolute;
+    z-index: 0;
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    right: 20%;
+    border-radius: 50%;
+    background-color: #d1a95e;
+    animation: topBounce-2 4s ease-in-out infinite;
+}
+@keyframes topBounce-2{
+    0%, 100%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(50px);
+    }
+}
+.effect-3{
+    position: absolute;
+    z-index: 0;
+    width: 120px;
+    height: 120px;
+    bottom: 30%;
+    left: 10%;
+    border-radius: 50%;
+    background-color: #81cc5f;
+    animation: topBounce-3 5s ease-in-out infinite;
+}
+@keyframes topBounce-3{
+    0%, 100%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(30px);
+    }
+}
+/* 頁面中部 */
+div.page-middle{
+    height: 100vh;
+    padding: 40px;
+    background-color: #414152;
+}
+div.page-middle .form-inline{
+    margin-left: 10vh;
+}
+div.page-middle .form-inline .form-control{
+    margin: 2vh;
+}
+div.myChart{
+    display: block;
+    margin: 5vh auto;
+    background-color: #ebebeb;
+    border-radius: 25px;
+    width: 150vh;
+    height: 75vh;
+    overflow-y: scroll;
+}
+canvas#myChart{
+    padding: 10px;
+}
+#schedule{
+    table-layout: auto;
+    margin: auto auto;
+    text-align: center;
+    border-radius: 25px;
+    border-collapse: collapse;
+    overflow: scroll;
+    animation: fadeout 1s;
+}
+
+.myChart::-webkit-scrollbar-track
+{
+    display: none;
+}
+
+.myChart::-webkit-scrollbar
+{
+	display: none;
+}
+
+.myChart::-webkit-scrollbar-thumb
+{
+    display: none;
+}
+
+
+#schedule th, td{
+    outline: 1px solid;
+    width: 30vh;
+}
+#schedule .thead{
+    background-color: #f5d08b;
+}
+#schedule th.num{
+    width: 15vh;
+}
+#schedule th.time{
+    width: 25vh;
+}
+#schedule th.date{
+    padding: 30px 30px;
+}
+
+@keyframes fadeout{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 100;
+    }
+}
+/* RWD */
+@media (min-width: 400px){
+    .page-middle .myChart{
+        width: 40vh;
+        height: 20vh;
+    }
+}
+@media (max-width: 750px){
+    div.page-top{
+        margin: 0;
+        padding: 0;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: 120vh;
+    }
+    div.page-top img{
+        margin: 0;
+        padding: 0;
+    }
+    div.right-intro{
+        margin-top: 10vh;
+        margin-left: 3vh;
+    }
+    .page-middle .myChart{
+        width: 80vh;
+        height: 40vh;
+    }
+}
+@media screen and (min-width: 750px) and (min-height: 400px){
+    .page-middle .myChart{
+        width: 100vh;
+        height: 48vh;
+    }
+}
+@media screen and (min-width: 820px) and (min-height: 400px){
+    .page-middle .myChart{
+        width: 110vh;
+        height: 55vh;
+    }
+}
+@media screen and (min-width: 930px) and (min-height: 400px){
+    .page-middle .myChart{
+        width: 120vh;
+        height: 60vh;
+    }
+}
+@media screen and (min-width: 950px) and (min-height: 400px){
+    .page-middle .myChart{
+        width: 130vh;
+        height: 65vh;
+    }
+}
+@media screen and (min-width: 1000px) and (min-height: 400px){
+    .page-middle .myChart{
+        width: 140vh;
+        height: 70vh;
+    }
+}
+@media screen and (min-width: 1100px) and (min-height: 400px){
+    div.page-middle{
+        height: 100vh;
+    }
+    .page-middle .myChart{
+        width: 153vh;
+        height: 75vh;
+    }
+}
+@media screen and (min-width: 1200px) and (min-height: 400px){
+    div.page-middle{
+        height: 100vh;
+    }
+    .page-middle .myChart{
+        width: 160vh;
+        height: 70vh;
+    }
+}
+@media screen and (min-width: 1500px) and (min-height: 400px){
+    div.page-middle{
+        height: 120vh;
+    }
+    .page-middle .myChart{
+        width: 185vh;
+        height: 93vh;
+    }
+}
+@media (min-width: 750px) and (min-height: 750px) {
+    .page-middle .myChart{
+        width: 80vh;
+        height: 40vh;
+    }
+}
+@media (min-width: 850px) and (min-height: 750px) {
+    .page-middle .myChart{
+        width: 80vh;
+        height: 40vh;
+    }
+}
+@media (min-width: 950px) and (min-height: 750px) {
+    .page-middle .myChart{
+        width: 100vh;
+        height: 50vh;
+    }
+}
+@media (min-width: 1080px) and (min-height: 750px) {
+    .page-middle .myChart{
+        width: 120vh;
+        height: 60vh;
+    }
+}
+@media (min-width: 1200px) and (min-height: 750px) {
+    .page-middle .myChart{
+        width: 150vh;
+        height: 75vh;
+    }
+}
+@media (min-width: 950px) and (min-height: 890px){
+    .page-middle .myChart{
+        width: 80vh;
+        height: 40vh;
+    }
+}
+@media (min-width: 1080px) and (min-height: 890px){
+    .page-middle .myChart{
+        width: 100vh;
+        height: 50vh;
+    }
+}
+@media (min-width: 1200px) and (min-height: 890px){
+    .page-middle .myChart{
+        width: 120vh;
+        height: 60vh;
+    }
+}
+@media (min-width: 1500px) and (min-height: 890px) {
+    .page-middle .myChart{
+        width: 140vh;
+        height: 70vh;
+    }
+}
+@media (min-width: 1700px) and (min-height: 890px) {
+    .page-middle .myChart{
+        width: 165vh;
+        height: 83vh;
+    }
+    div.page-middle{
+        height: 120vh;
+    }
+}
+button[name='btn-newfile'] {
+    /* padding: 10px; */
+    color: white;
+    background-color: #009578;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[name='btn-newfile']:hover {
+    background-color: #00b28f;
+}
+

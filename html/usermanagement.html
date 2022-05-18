@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+
+    <?php include "../html/header/navbar.php" ?>
+    <?php include "../html/header/chatbar.html" ?>
+    <link rel="stylesheet" href="/css/usermanagement.css">
+
+</head>
+
+<body>
+    <!-- modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-center" id="exampleModalLabel"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modal-b" class="modal-body">
+                </div>
+                <div id="modal-f" class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-inline">
+        <div name="hover-plus" class="pt-1">
+            <box-icon name='plus' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                func-type="plus">
+            </box-icon>
+            <span class="tooltips">新增</span>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="user_title">
+            <h1 class="title">管理員</h1>
+        </div>
+        <div id="admin">
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="user_title">
+            <h1 class="title">老師</h1>
+        </div>
+        <div id="teacher">
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="user_title">
+            <h1 class="title">學生</h1>
+        </div>
+        <div id="student">
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="user_title">
+            <h1 class="title">使用者</h1>
+        </div>
+        <div id="member">
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        getUserManagement();
+        get_role_select();
+    });
+    $('document').ready(function () {
+        let expand = document.getElementsByClassName("expandButton");
+
+        for (let i = 0; i < expand.length; i++) {
+            expand[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("active");
+                let content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 15 + "px";
+                }
+            })
+        }
+    })
+    // $(document).on("click", "box-icon[name='widget']", function () {
+    //     $("div[name='user-hover]:not(:last-child)").css("display", "block");
+    //     $("div[name='user-hover]:last-child").attr("style", "display:none");
+    //     console.log(123)
+    // });
+    $(document).on("change", "select[name='role']", function () {
+        let role_id = $(this).val();
+        if (role_id == '2') {
+            $("#role_data").empty();
+            $("#role_data").append(`
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-3 mt-2">老師編號：</label>
+                        <input type="text" class="form-control col-8" name="user_name" required>
+                    </div>
+                `);
+        } else if (role_id == '3') {
+            $("#role_data").empty();
+            $("#role_data").append(`
+                    <hr />
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">學號：</label>
+                        <input type="text" class="form-control col-9" name="user_name" required>
+                    </div>
+                `);
+        } else {
+            $("#role_data").empty();
+        }
+    });
+
+    $("#exampleModal").on("show.bs.modal", function (e) {
+        let element = e.relatedTarget;
+        let func_type = $(element).attr("func-type");
+        let user_name = $(element).parent().parent().parent().find(".user_name").text();
+        if (func_type == "plus") {
+            $("#exampleModal").find(".modal-header h4").text("新增用戶");
+            $("#exampleModal").find(".modal-body").html(`
+                <form id="user-form">
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">姓名：</label>
+                        <input type="text" class="form-control col-9" name="user_name" required>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">權限： </label>
+                        <select class="form-control col-9" name="role" required>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">信箱：</label>
+                        <input type="text" class="form-control col-9" name="user_email" required>
+                    </div>
+                    <div id="role_data"></div>
+                    <input type="submit" hidden>
+                </form>
+            `);
+            $("#exampleModal").find(".modal-footer").html(`
+                <button class="btn btn-primary" name="confirmBtn" func-type="add"">新增</button>
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            `);
+        } else if (func_type == "preview") {
+            let email = $(element).attr("user_email");
+            let user_number = $(element).attr("user_number");
+            $("#exampleModal").find(".modal-header h4").text("用戶資料");
+            $("#exampleModal").find(".modal-body").html(`
+                <form id="user-form">
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">姓名：</label>
+                        <p class="col-9 pt-2">${user_name}</p>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">信箱： </label>
+                        <p class="col-9 pt-2">${email || '--'}</p>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">學號： </label>
+                        <p class="col-9 pt-2">${user_number || '--'}</p>
+                    </div>
+                </form>
+            `);
+            $("#exampleModal").find(".modal-footer").html(`
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            `);
+        } else if (func_type == "edit") {
+            let user_id = $(element).parent().parent().find("[name='trash']").attr("user_id");
+            $("#exampleModal").find(".modal-header h4").text("編輯用戶");
+            $("#exampleModal").find(".modal-body").html(`
+                <form id="user-form">
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">姓名：</label>
+                        <input type="text" class="form-control col-9" name="user_name" value="${user_name}"">
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 mt-2">權限： </label>
+                        <select class="form-control col-9" name="role">
+                            <option value="0">全科</option>
+                        </select>
+                    </div>
+                </form>
+            `);
+            $("#exampleModal").find(".modal-footer").html(`
+                <button class="btn btn-primary" name="confirmBtn" func-type="edit" user_id="${user_id}">提交</button>
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            `);
+        } else if (func_type == "delete") {
+            let user_id = $(element).attr("user_id");
+            $("#exampleModal").find(".modal-header h4").text("刪除用戶");
+            $("#exampleModal").find(".modal-body").html(`
+                <p>確定要刪除 ${user_name} ?</p>
+            `);
+            $("#exampleModal").find(".modal-footer").html(`
+                <button class="btn btn-danger" name="confirmBtn" func-type="delete" user_id="${user_id}">刪除</button>
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            `);
+        }
+        get_role_select();
+        $("button[name='confirmBtn']").on("click", function () {
+            let func_type = $(this).attr("func-type");
+            let user_id = $(this).attr("user_id");
+            let user_name = $(this).parent().parent().find("input[name='user_name']").val();
+            let email = $(this).parent().parent().find("input[name='user_email']").val();
+            let role_id = $(this).parent().parent().find("select").val();
+            if (func_type == "add") {
+                addUserRole(user_name, email, role_id);
+            } else if (func_type == "edit") {
+                patchUserRole(user_id, user_name, role_id);
+            } else if (func_type == "delete") {
+                deleteUserRole(user_id);
+            }
+        });
+    });
+    function getUserManagement() {
+        $.ajax({
+            url: "/usermanagement",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                $("#admin").empty();
+                $("#teacher").empty();
+                $("#student").empty();
+                $("#member").empty();
+                $(response).each(function () {
+                    if (this.picture == null) {
+                        this.picture = `admin.jpeg`;
+                    }
+                    let usercontent = `
+                        <div name="user_content">
+                                <div name="user">
+                                    <img id="profile_picture" class="img-profile rounded-circle" src="/picture/${this.picture}" width="40" height="40">
+                                    <p class="user_name">${this.user_name}</p>
+                                </div>
+                                <div class="form-inline" name="user-func">
+                                    <div name="user-hover" class="originalButton pt-1">
+                                        <box-icon name='search-alt' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                                            func-type="preview" user_email="${this.email}" user_number="${this.user_number}">
+                                        </box-icon>
+                                    </div>
+                                    <div name="user-hover" class="originalButton pt-1">
+                                        <box-icon name='edit' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                                            func-type="edit">
+                                        </box-icon>
+                                    </div>
+                                    <div name="user-hover" class="originalButton pt-1">
+                                        <box-icon name='trash' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                                            func-type="delete" user_id="${this.user_id}">
+                                        </box-icon>
+                                    </div>
+                                    <div>
+                                        <div name="user-hover" class="expandButton pt-1">
+                                            <box-icon type="solid" name='widget' color='rgba(0,0,0,0.5)'>
+                                            </box-icon>
+                                        </div>
+                                        <div class="fucku">
+                                            <div class="fuckuhard">
+                                                <box-icon name='search-alt' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                                                    func-type="preview" user_email="${this.email}" user_number="${this.user_number}">
+                                                </box-icon>
+                                            </div>
+                                            <div class="fuckuhard">
+                                                <box-icon name='edit' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                                                func-type="edit">
+                                                </box-icon>
+                                            </div>
+                                            <div class="fuckuhard">
+                                                <box-icon name='trash' color='rgba(0,0,0,0.5)' data-toggle="modal" data-target="#exampleModal"
+                                                func-type="delete" user_id="${this.user_id}">
+                                                </box-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    `;
+                    if (this.role_id == 1) {
+                        $("#admin").append(usercontent);
+                    } else if (this.role_id == 2) {
+                        $("#teacher").append(usercontent);
+                    } else if (this.role_id == 3) {
+                        $("#student").append(usercontent);
+                    } else {
+                        $("#member").append(usercontent);
+                    }
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+    function get_role_select() {
+        $.ajax({
+            url: "/usermanagement/getRole",
+            type: "GET",
+            async: false,
+            success: function (response) {
+                $("select[name='role']").empty();
+                $("select[name='role']").html(`<option value="0">請選擇..</option>`);
+                $(response).each(function () {
+                    $("select[name='role']").append(`<option value="${this.role_id}">${this.role_name}</option>`);
+                });
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    };
+    function addUserRole(user_name, email, role_id) {
+        $.ajax({
+            url: "/usermanagement",
+            type: "POST",
+            async: false,
+            data: {
+                user_name: user_name,
+                email: email,
+                role_id: role_id
+            },
+            beforeSend: function (response) {
+                $("#exampleModal").find(".modal-body").html("資料更新中...");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+            },
+            success: function (response) {
+                $("#exampleModal").find(".modal-body").html("新增成功");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                getUserManagement();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+    function patchUserRole(user_id, user_name, role_id) {
+        $.ajax({
+            url: "/usermanagement",
+            type: "PATCH",
+            async: false,
+            data: {
+                user_id: user_id,
+                user_name: user_name,
+                role_id: role_id
+            },
+            beforeSend: function (response) {
+                $("#exampleModal").find(".modal-body").html("資料更新中...");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+            },
+            success: function (response) {
+                $("#exampleModal").find(".modal-body").html("編輯成功");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                getUserManagement();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+    function deleteUserRole(user_id) {
+        $.ajax({
+            url: "/usermanagement",
+            type: "DELETE",
+            async: false,
+            data: {
+                user_id: user_id
+            },
+            beforeSend: function (response) {
+                $("#exampleModal").find(".modal-body").html("資料更新中...");
+            },
+            success: function (response) {
+                $("#exampleModal").find(".modal-body").html("刪除成功");
+                $("#exampleModal").find(".modal-footer").html(`<button class="btn btn-secondary" data-dismiss="modal">確認</button>`);
+                getUserManagement();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        });
+    }
+
+
+
+</script>
+
+</html>

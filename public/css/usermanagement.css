@@ -1,0 +1,147 @@
+body{
+    font-family: "Montserrat", sans-serif;
+}
+div.wrap{
+    margin: 30px 18%;
+    padding: 20px 20px;
+    border-radius: 15px;
+    background-color: #ebebeb;
+    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.1),
+                15px 18px 15px rgba(0, 0, 0, 0.05);
+}
+div.user_title{
+    height: 60px;
+    border-bottom: 1px solid rgb(101, 101, 214);
+}
+h1.title{
+    color: rgb(101, 101, 214);
+    padding: 5px 0;
+}
+div[name="user_content"]{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 30px 0 30px 35px;
+    margin: 20px 0;
+    background-color: rgb(253, 253, 253);
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
+div[name="user"]{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    width: 30%;
+}
+p.user_name{
+    margin: 20px 20px;
+}
+div[name='hover-plus'] {
+    margin: 25px 19% 0;
+    width: 42px;
+    height: 42px;
+}
+div[name='hover-plus']:hover {
+    background-color: #dfdddd;
+    border-radius: 90px;
+    transition: .5s;
+}
+div[name='hover-plus'] box-icon {
+    transform: translate(9px, 6px);
+}
+div[name='hover-plus'] .tooltips{
+    position: absolute;
+    visibility: hidden;
+    width: 60px;
+    padding: 4px 0;
+    margin-top: -40px;
+    margin-left: -30px;
+    border-radius: 25px;
+    text-align: center;
+    background-color: rgba(240, 240, 240, 0.616);
+    color: rgb(73, 73, 73, 0.5);
+}
+div[name='hover-plus']:hover .tooltips{
+    visibility: visible;
+    transition: .5s;
+}
+div[name='user-func']{
+    display: flex;
+    padding-left: 48%;
+}
+
+div[name='user-hover']{
+    width: 38px;
+    height: 38px;
+    margin-right: 5px;
+}
+div[name='user-hover']:hover {
+    cursor: pointer;
+    background-color: #dfdddd;
+    border-radius: 90px;
+    transition: .5s;
+}
+div[name='user-hover'] box-icon {
+    transform: translate(7px, 4px);
+}
+
+@media (min-width:1050px){
+    .originalButton{
+        margin: 0;
+        display: flex;
+    }
+    .expandButton{
+        display: none;
+    }
+    .fucku{
+        display: none;
+    }
+}
+
+@media (max-width:1050px) {
+    .originalButton{
+        margin: 0;
+        display: none;
+    }
+    .expandButton{
+        display: block;
+    }
+    .expandButton.active{
+        border-radius: 90px;
+        background-color: #dfdddd;
+    }
+    .fucku{
+        display: none;
+    }
+    .fucku.active{
+        display: block;
+        background-color: rgb(255, 255, 255);
+        position: absolute;
+        border-radius: 45px;
+        max-height: 0px;
+        overflow: hidden;
+        width: 38px;
+        transition: 0.2s ease-out;
+        padding-bottom: 10px;
+        z-index: 1;
+    }
+    
+    .fucku box-icon {
+        transform: translate(7px, 4px);
+        margin-top: 5px;
+    }
+    .fuckuhard{
+        height: 38px;
+        z-index: 2;
+        margin-top: 5px;
+    }
+    .fuckuhard:hover {
+        cursor: pointer;
+        background-color: #dfdddd;
+        border-radius: 90px;
+        transition: .5s;
+    }
+}
+
+

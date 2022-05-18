@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+    <link rel="stylesheet" href="/css/sem_intro.css">
+    <script src="/javascript/countUp.js"></script>
+    <?php include "../html/header/navbar.php" ?>
+    <?php include "../html/header/chatbar.html" ?>
+</head>
+
+<body>
+    <div class="flex-container">
+        <div class="main-panel">
+            <div class="flash-news-banner">
+                <div class="container">
+                    <div class="d-lg-flex align-items-center justify-content-between m-3">
+                        <div class="d-flex align-items-center">
+                            <span class="badge badge-dark mr-3" id="title">SEM News</span>
+                        </div>
+                        <div class="datetime text-danger mr-3">
+                            <div class="date">
+                                <span id="day"> </span>
+                                <span id="year"> </span>/
+                                <span id="month"> </span>/
+                                <span id="daynum"> </span>
+                            </div>
+                            <div class="time">
+                                <span id="period"> </span>
+                                <span id="hour"> </span>:
+                                <span id="minute"> </span>:
+                                <span id="second"> </span>
+                            </div>
+                            <div class="temperature text-danger mr-3">
+                                <span>
+                                    <select class="form-control-sm" name="citySelect" id="citySelect"
+                                        onchange="changeCity()">
+                                        <option value="Taipei">台北</option>
+                                        <option value="Taoyuan">桃園</option>
+                                        <option value="Hsinchu">新竹</option>
+                                        <option value="Yilan">宜蘭</option>
+                                        <option value="Miaoli">苗栗</option>
+                                        <option value="Taichung">台中</option>
+                                        <option value="Zhanghua">彰化</option>
+                                        <option value="Nantou">南投</option>
+                                        <option value="Yunlin">雲林</option>
+                                        <option value="Hualien">花蓮</option>
+                                        <option value="Chiayi">嘉義</option>
+                                        <option value="Tainan">台南</option>
+                                        <option value="Kaohsiung">高雄</option>
+                                        <option value="Yanchao" selected="selected">燕巢</option>
+                                        <option value="Gangshan">岡山</option>
+                                        <option value="Qiaotou">橋頭</option>
+                                        <option value="Dashe">大社</option>
+                                        <option value="Nanzi">楠梓</option>
+                                        <option value="Taitung">台東</option>
+                                        <option value="Pingtung">屏東</option>
+                                    </select>
+                                </span>
+                                <span id="weather"> </span>°C
+                                <span id="description"> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-wrapper m-lg-2">
+                <div class="container">
+                    <div class="row" data-aos="fade-up">
+                        <div class="col-xl-8 stretch-card grid-margin">
+                            <div id="carouseldiv" class="position-relative">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 550px;width: 750px; ">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
+                                        </li>
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <div class="position-relative">
+                                                <img src="/picture/sem_intro/banner1.jpg">
+                                                <div class="banner-content">
+                                                    <div class="badge badge-danger fs-12 font-weight-bold mb-3">
+                                                        系上大事
+                                                    </div>
+                                                    <h1 class="mb-2">
+                                                        軟體系有堆歪國人來報到只為朝聖?
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="position-relative">
+                                                <img src="/picture/sem_intro/banner2.jpg">
+                                                <div class="banner-content">
+                                                    <div class="badge badge-danger fs-12 font-weight-bold mb-3">
+                                                        系上大事
+                                                    </div>
+                                                    <h1 class="mb-2">
+                                                        軟體系有堆歪國人來報到只為朝聖?
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="position-relative">
+                                                <img src="/picture/sem_intro/banner3.jpg">
+                                                <div class="banner-content">
+                                                    <div class="badge badge-danger fs-12 font-weight-bold mb-3">
+                                                        系上大事
+                                                    </div>
+                                                    <h1 class="mb-2">
+                                                        軟體系有堆歪國人來報到只為朝聖?
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="position-relative">
+                                                <img src="/picture/sem_intro/banner4.jpg">
+                                                <div class="banner-content">
+                                                    <div class="badge badge-danger fs-12 font-weight-bold mb-3">
+                                                        系上大事
+                                                    </div>
+                                                    <h1 class="mb-2">
+                                                        軟體系有堆歪國人來報到只為朝聖?
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 stretch-card grid-margin">
+                            <div class="card bg-dark text-white">
+                                <div class="card-body">
+                                    <h2>最新消息</h2>
+                                    <div class="d-flex border-bottom-blue pt-3 pb-4 align-items-center justify-content-between">
+                                        <div class="pr-3">
+                                            <P>郭哥累計手起刀落的人數</P>
+                                            <h1><span id="number"></span></h1>
+
+                                            <div class="fs-12">
+                                                <span class="mr-2">沒圖沒真相 </span>10 分鐘前
+                                            </div>
+                                        </div>
+                                        <div class="rotate-img">
+                                            <img src="https://picsum.photos/150/120" alt="thumb" class="img-fluid img-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex border-bottom-blue pb-4 pt-4 align-items-center justify-content-between">
+                                        <div class="pr-3">
+                                            <h5>立委老師今年期中又是考古考古題!!!</h5>
+                                            <div class="fs-12">
+                                                <span class="mr-0">沒圖沒真相 </span>10 分鐘前
+                                            </div>
+                                        </div>
+                                        <div class="rotate-img">
+                                            <img src="https://picsum.photos/150/120" alt="thumb" class="img-fluid img-lg" />
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex pt-4 align-items-center justify-content-between">
+                                        <div class="pr-3">
+                                            <h5>驚!!!蕭姓同學和馬姓同學的不倫關係</h5>
+                                            <div class="fs-12">
+                                                <span class="mr-2">沒圖沒真相 </span>10 分鐘前
+                                            </div>
+                                        </div>
+                                        <div class="rotate-img">
+                                            <img src="https://picsum.photos/150/120" alt="thumb" class="img-fluid img-lg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapsdiv">
+                            <button type="button" class="collapsible">本校資訊</button>
+                            <div class="content">
+                                <iframe src="https://news.nknu.edu.tw/nknu_news/LastNewsList_Dept.aspx?place=zy" style="width:100%;min-height: 400px;" frameborder="0">
+                                </iframe>
+                            </div>
+
+                            <button type="button" class="collapsible">系所師資</button>
+                            <div class="content">
+                                <iframe width="900" height="506" src="" frameborder="0"></iframe>
+                            </div>
+                        </div>
+
+                        <div class="row" data-aos="fade-up">
+                            <div class="col-lg-8 stretch-card grid-margin">
+                                <div class="card m-2 ">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4 grid-margin">
+                                                <div class="position-relative">
+                                                    <div class="rotate-img">
+                                                        <img src="https://picsum.photos/227/158" alt="thumb" class="img-fluid" />
+                                                    </div>
+                                                    <div class="badge-positioned">
+                                                        <span class="badge badge-danger font-weight-bold">Flash
+                                                            news</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8  grid-margin">
+                                                <h2 class="mb-2 font-weight-600">
+                                                    South Korea’s Moon Jae-in sworn in vowing to address North
+                                                </h2>
+                                                <div class="fs-13 mb-2">
+                                                    <span class="mr-2">Photo </span>10 Minutes ago
+                                                </div>
+                                                <p class="mb-0">
+                                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4 grid-margin">
+                                                <div class="position-relative">
+                                                    <div class="rotate-img">
+                                                        <img src="https://picsum.photos/227/158" alt="thumb" class="img-fluid" />
+                                                    </div>
+                                                    <div class="badge-positioned">
+                                                        <span class="badge badge-danger font-weight-bold">Flash
+                                                            news</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8  grid-margin">
+                                                <h2 class="mb-2 font-weight-600">
+                                                    No charges over 2017 Conservative battle bus cases
+                                                </h2>
+                                                <div class="fs-13 mb-2">
+                                                    <span class="mr-2">Photo </span>10 Minutes ago
+                                                </div>
+                                                <p class="mb-0">
+                                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="position-relative">
+                                                    <div class="rotate-img">
+                                                        <img src="https://picsum.photos/227/158" alt="thumb" class="img-fluid" />
+                                                    </div>
+                                                    <div class="badge-positioned">
+                                                        <span class="badge badge-danger font-weight-bold">Flash
+                                                            news</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <h2 class="mb-2 font-weight-600">
+                                                    Kaine: Trump Jr. may have committed treason
+                                                </h2>
+                                                <div class="fs-13 mb-2">
+                                                    <span class="mr-2">Photo </span>10 Minutes ago
+                                                </div>
+                                                <p class="mb-0">
+                                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+<script>
+    window.setInterval("valuedClock()", 1000);
+    //時鐘
+    function valuedClock() {
+        let now = new Date();
+        let dayname = now.getDay();
+        let month = now.getMonth();
+        let daynum = now.getDate();
+        let year = now.getFullYear();
+        let hour = now.getHours();
+        let min = now.getMinutes();
+        let sec = now.getSeconds();
+        let period = "上午";
+
+        if (hour == 0) {
+            hour = 12;
+        }
+        if (hour > 12) {
+            hour = hour - 12;
+            period = "下午"
+        }
+
+        let weektext = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        let monthtext = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        let clockid = ["day", "year", "month", "daynum", "period", "hour", "minute", "second"];
+        let clockvalue = [weektext[dayname], year, monthtext[month], daynum, period, hour, min, sec];
+
+        for (let i = 5; i < clockvalue.length; i++) {
+            let digit = clockvalue[i].toString();
+            if (digit.length < 2) {
+                digit = 0 + digit;
+            }
+            clockvalue[i] = digit;
+        }
+
+        for (let i = 0; i < clockid.length; i++) {
+            document.getElementById(clockid[i]).firstChild.nodeValue = clockvalue[i] + " ";
+        }
+    }
+
+    let weatherCountry = "TW"
+    let weatherCity = "Yanchao"
+    let weatherAccount = "214f43292bfa3d24d74302e7a7cf070e"
+    let selectCity = document.querySelector("[name= citySelect]");
+    let weatherlanguage = "zh_tw"
+
+    function changeCity() {
+        weatherCity = selectCity.options[selectCity.selectedIndex].value;
+        getWeather();
+    }
+
+    getWeather();
+
+    function getWeather() {
+        $.ajax({
+            url: "http://api.openweathermap.org/data/2.5/weather?q=" + weatherCity + "," + weatherCountry + "&appid=" + weatherAccount + "&lang=" + weatherlanguage,
+            type: "GET",
+            success: function(data) {
+                let temp = Math.floor(data.main.temp - 273);
+                document.getElementById("weather").firstChild.nodeValue = temp;
+                document.getElementById("description").firstChild.nodeValue = data.weather[0].description;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log(XMLHttpRequest.status);
+            }
+        })
+    }
+
+    var options = {
+        startVal: 10000,
+        duration: 4,
+        useEasing: true,
+        useGrouping: true, //進位
+        separator: ',',
+        decimal: '.',
+        prefix: '', //前面留幾個0
+        suffix: '' //後面留幾個0
+    }
+    const countUp = new CountUp('number', 1, options);
+    if (!countUp.error) {
+        countUp.start();
+    } else {
+        console.error(countUp.error);
+    }
+
+    $(document).ready(function() {
+        let coll = document.getElementsByClassName("collapsible");
+        let i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                let content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    });
+</script>
+
+</html>

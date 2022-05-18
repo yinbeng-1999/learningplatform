@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/picture/sem.ico" type="image/x-icon">
+    <title>Learning Platform</title>
+
+    <link rel="stylesheet" href="/javascript/bootstrap.min.css">
+    <link rel="stylesheet" href="/javascript/bootstrap-icons.css">
+    <script src="/javascript/jquery.min.js" charset="utf-8"></script>
+    <script src="/javascript/popper.min.js"></script>
+    <script src="/javascript/bootstrap.min.js"></script>
+    <script src="/javascript/boxicons.js"></script>
+    <link rel="stylesheet" href="/css/login.css">
+    <style>
+        body {
+            height: 130vh;
+            overflow-y: scroll;
+        }
+
+        .center {
+            margin: 28vh 50%;
+            width: 400px;
+            /* transform: translateX(px); */
+        }
+
+        form .role-field label {
+            color: #adadad;
+        }
+
+        form .role-field select:focus~label {
+            color: #703434;
+        }
+
+        hr {
+            border: 1px solid;
+            color: #adadad;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1>LearningPlatform</h1>
+    </div>
+    <div class="effect-1">
+        <div></div>
+    </div>
+    <div class="effect-2">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="effect-3">
+        <div></div>
+    </div>
+    <div class="effect-4">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="center">
+        <h2 name="formTitle">Register</h2>
+        <form id="register_form" autocomplete="off">
+            <div class="text-field">
+                <input type="text" id="user_name" name="register_data" autocomplete="false" required>
+                <span></span>
+                <label>使用者姓名 </label>
+            </div>
+            <div class="text-field">
+                <input type="text" id="account" name="register_data" required>
+                <span></span>
+                <label>帳號 </label>
+            </div>
+            <div class="text-field">
+                <input type="password" id="password" name="register_data" autocomplete="false" required>
+                <span></span>
+                <label>密碼 </label>
+            </div>
+            <div class="text-field">
+                <input type="email" id="email" name="register_data" required>
+                <span></span>
+                <label>信箱 (xxx@gmail.com)</label>
+            </div>
+            <div class="role-field row">
+                <label class="col-3 mt-2 ml-1">身份</label>
+                <select class="form-control col-8" id="role_id" name="register_data" required>
+                    <option value="">請選擇...</option>
+                    <option value="2">老師</option>
+                    <option value="3">學生</option>
+                </select>
+            </div>
+            <hr>
+            <div id="role_data"></div>
+            <input type="button" id="register" value="提交">
+            <input type="submit" hidden>
+            <div class="signup">
+                返回 <a href="/">登入</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">系統訊息</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class='text-danger'>此使用者不存在</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).on("click", "#register", function () {
+            $(document).find("#register_form input:submit").click();
+        });
+        $(document).on("submit", "#register_form", function (e) {
+            e.preventDefault();
+
+            let data = new Object();
+            $("[name='register_data']").each(function () {
+                if ($(this).attr("id") == 'user_number') {
+                    data[$(this).attr("id")] = $(this).val();
+                    if ($(this).val().substring(1, 4) == '107') {
+                        data['grade'] = 4;
+                    } else if ($(this).val().substring(1, 4) == '108') {
+                        data['grade'] = 3;
+                    } else if ($(this).val().substring(1, 4) == '109') {
+                        data['grade'] = 2;
+                    } else if ($(this).val().substring(1, 4) == '110') {
+                        data['grade'] = 1;
+                    }
+                    if ($(this).val().substring(4, 6) == '77') {
+                        data['major'] = '軟體工程與管理學系';
+                    }
+                } else {
+                    data[$(this).attr("id")] = $(this).val();
+                }
+            });
+            // console.log(data)
+            $.ajax({
+                url: '/register',
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function (response) {
+                    if (response.status == "failed") {
+                        $("#message").modal('show');
+                        $("#message").find(".modal-body p").text("此帳號已被註冊！！");
+                        $("[name='register_data']").each(function () {
+                            $(this).val("");
+                        });
+                    } else {
+                        $("#message").modal('show');
+                        $("#message").find('.modal-body').html("註冊成功");
+                        $("#message").on("hidden.bs.modal", function () {
+                            window.location.href = "/"
+                        });
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest.status);
+                }
+            });
+        });
+        $(document).on("change", "select#role_id", function () {
+            let role_id = $(this).val();
+            if (role_id == '2') {
+                $("#role_data").empty();
+                $("#role_data").append(`
+                    <div class="text-field">
+                        <input type="text" id="user_number" name="register_data" required>
+                        <span></span>
+                        <label>老師編號 </label>
+                    </div>
+                `);
+            } else if (role_id == '3') {
+                $("#role_data").empty();
+                $("#role_data").append(`
+                    <div class="text-field">
+                        <input type="text" id="user_number" name="register_data" required>
+                        <span></span>
+                        <label>學號 (41xxxxxxx)</label>
+                    </div>
+                `);
+            } else {
+                $("#role_data").empty();
+            }
+        });
+    </script>
+</body>
+
+</html>
